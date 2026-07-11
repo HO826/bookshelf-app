@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Book;
+use App\Models\User;
+
+class BookPolicy
+{
+    /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, Book $book): bool
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, Book $book): bool
+    {
+        // ログイン中のユーザーID（$user->id）と、本の登録者ID（$book->user_id）が
+        // 一致している場合のみ true（表示許可）を返す
+        return $user->id === $book->user_id;
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, Book $book): bool
+    {
+        return $user->id === $book->user_id;
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, Book $book): bool
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, Book $book): bool
+    {
+        //
+    }
+}

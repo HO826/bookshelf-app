@@ -58,9 +58,9 @@ class User extends Authenticatable
     }
 
     // ユーザーがお気に入りにした本一覧（多対多）
-    public function favorites(): BelongsToMany
+    public function favoriteBooks(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class, 'favorites');
+        return $this->belongsToMany(Book::class, 'favorites')->withPivot('created_at');
     }
 
     // ユーザーがいいねしたレビュー一覧（多対多）
