@@ -33,6 +33,6 @@ class Review extends Model
     // このレビューにいいねしたユーザー一覧（多対多）
     public function likedByUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'likes');
+        return $this->belongsToMany(User::class, 'review_likes');
     }
 }

@@ -15,6 +15,11 @@ class ReviewSeeder extends Seeder
         $users = User::all();
         $books = Book::all();
 
+        // データの存在チェック（安全対策）
+        if ($users->isEmpty() || $books->isEmpty()) {
+            return;
+        }
+
         // 2. 要件「具体的なコメント内容」を満たすための、使い回せるコメントのバリエーション
         $comments = [
             'とても読みやすくて勉強になりました。何度も読み返したい一冊です。',
@@ -25,16 +30,25 @@ class ReviewSeeder extends Seeder
 
         // 全体の合計レビュー数をカウントするための変数（32件ぴったりにする）
         $totalReviews = 0;
+        $maxReviews = 32;
 
         // 3. 11冊の本に対して、1冊ずつレビューを配分していくループ
         foreach ($books as $bookIndex => $book) {
 
             // 本ごとに「2件〜4件」のレビュー数を割り振る（最後の本で32件ぴったりに調整）
             if ($bookIndex === $books->count() - 1) {
-                $reviewCount = 32 - $totalReviews; // 最後の本は残り物すべて
+                $reviewCount = $maxReviews - $totalReviews; // 最後の本は残り物すべて
             } else {
                 // 1冊あたり2〜4件をランダム、またはバランスよく（ここでは3件前後を基準に）設定
                 $reviewCount = ($bookIndex % 3 === 0) ? 4 : (($bookIndex % 2 === 0) ? 2 : 3);
+            }
+
+            // 安全策：配分数が2〜4件の範囲を超えないようにガード（データ増減時の考慮）
+            $reviewCount = max(2, min(4, $reviewCount));
+
+            // 残り必要件数を超えないように調整
+            if ($totalReviews + $reviewCount > $maxReviews) {
+                $reviewCount = $maxReviews - $totalReviews;
             }
 
             $totalReviews += $reviewCount;
@@ -49,7 +63,6 @@ class ReviewSeeder extends Seeder
                 Review::create([
                     'user_id' => $user->id,
                     'book_id' => $book->id,
-                    'title' => 'おすすめの一冊',
                     'comment' => $comments[($bookIndex + $i) % count($comments)], // コメントを順番に選択
                     'rating' => rand(3, 5), // 要件「ratingは3〜5の範囲」
                 ]);

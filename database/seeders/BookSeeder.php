@@ -11,30 +11,25 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. 登録者（山田太郎）の取得
         $user = User::first();
 
-        // 2. ジャンルデータを「名前」をキーにして一括取得
         $genres = Genre::all()->keyBy('name');
 
-        // 3. 要件シート通りの書籍データ配列（11件）
         $books = [
-            ['title' => '吾輩は猫である', 'author' => '夏目漱石', 'isbn' => '9784101010014', 'date' => '1905-01-01', 'genre' => '小説'],
-            ['title' => '人を動かす', 'author' => 'D・カーネギー', 'isbn' => '9784422100524', 'date' => '1936-10-01', 'genre' => 'ビジネス, 自己啓発'],
-            ['title' => 'リーダブルコード', 'author' => 'Dustin Boswell', 'isbn' => '9784873115658', 'date' => '2012-06-23', 'genre' => '技術書'],
-            ['title' => '7つの習慣', 'author' => 'スティーブン・R・コヴィー', 'isbn' => '9784863940246', 'date' => '2013-08-30', 'genre' => 'ビジネス, 自己啓発'],
-            ['title' => '坊っちゃん', 'author' => '夏目漱石', 'isbn' => '9784101010021', 'date' => '1906-04-01', 'genre' => '小説'],
-            ['title' => 'サピエンス全史', 'author' => 'ユヴァル・ノア・ハラリ', 'isbn' => '9784309226712', 'date' => '2016-09-08', 'genre' => '歴史, 科学'],
-            ['title' => 'Clean Code', 'author' => 'Robert C. Martin', 'isbn' => '9784048930598', 'date' => '2017-12-18', 'genre' => '技術書'],
-            ['title' => '嫌われる勇気', 'author' => '岸見一郎・古賀史健', 'isbn' => '9784478025819', 'date' => '2013-12-13', 'genre' => '自己啓発'],
-            ['title' => '火花', 'author' => '又吉直樹', 'isbn' => '9784163902302', 'date' => '2015-03-11', 'genre' => '小説'],
-            ['title' => 'FACTFULNESS', 'author' => 'ハンス・ロスリング', 'isbn' => '9784822289607', 'date' => '2019-01-11', 'genre' => 'ビジネス, 科学'],
-            ['title' => 'コンテナ物語', 'author' => 'マルク・レビンソン', 'isbn' => '9784822251468', 'date' => '2007-01-18', 'genre' => 'ビジネス, 歴史'],
+            ['title' => '吾輩は猫である', 'author' => '夏目漱石', 'isbn' => '9784101010014', 'date' => '1905-01-01', 'genre' => '小説', 'description' => '猫の視点から人間の滑稽な日常や社会をユーモラスに風刺した、夏目漱石の不朽の名作小説。'],
+            ['title' => '人を動かす', 'author' => 'D・カーネギー', 'isbn' => '9784422100524', 'date' => '1936-10-01', 'genre' => 'ビジネス, 自己啓発', 'description' => '人間関係の原則や他人の心を動かす行動指針を説いた、世界中で読み継がれる自己啓発のバイブル。'],
+            ['title' => 'リーダブルコード', 'author' => 'Dustin Boswell', 'isbn' => '9784873115658', 'date' => '2012-06-23', 'genre' => '技術書', 'description' => '美しく、理解しやすく、メンテナンスしやすい「良いコード」を書くための実践的テクニック集。'],
+            ['title' => '7つの習慣', 'author' => 'スティーブン・R・コヴィー', 'isbn' => '9784863940246', 'date' => '2013-08-30', 'genre' => 'ビジネス, 自己啓発', 'description' => '真の成功と幸福を手に入れるために、人格を磨き良好な人間関係を築くための不変の原則。'],
+            ['title' => '坊っちゃん', 'author' => '夏目漱石', 'isbn' => '9784101010021', 'date' => '1906-04-01', 'genre' => '小説', 'description' => '正義感が強く一本気な主人公が、四国の旧制中学校で繰り広げる人間模様を描いた痛快小説。'],
+            ['title' => 'サピエンス全史', 'author' => 'ユヴァル・ノア・ハラリ', 'isbn' => '9784309226712', 'date' => '2016-09-08', 'genre' => '歴史, 科学', 'description' => 'ホモ・サピエンスが文明を築き、地球の支配者となった歴史の謎をダイナミックに解き明かす一冊。'],
+            ['title' => 'Clean Code', 'author' => 'Robert C. Martin', 'isbn' => '9784048930598', 'date' => '2017-12-18', 'genre' => '技術書', 'description' => 'チーム開発を円滑にし、バグを減らすための「クリーンなコード」の書き方と設計のベストプラクティス。'],
+            ['title' => '嫌われる勇気', 'author' => '岸見一郎・古賀史健', 'isbn' => '9784478025819', 'date' => '2013-12-13', 'genre' => '自己啓発', 'description' => 'アドラー心理学の教えを青年と哲人の対話形式で分かりやすく紐解き、自由に行きる知恵を授ける書。'],
+            ['title' => '火花', 'author' => '又吉直樹', 'isbn' => '9784163902302', 'date' => '2015-03-11', 'genre' => '小説', 'description' => '売れないお笑い芸人たちの葛藤と純粋な情熱、そして先輩後輩の絆をリアルに描いた芥川賞受賞作。'],
+            ['title' => 'FACTFULNESS', 'author' => 'ハンス・ロスリング', 'isbn' => '9784822289607', 'date' => '2019-01-11', 'genre' => 'ビジネス, 科学', 'description' => 'データに基づき、思い込みを排除して世界を正しく見るための「事実に基づく世界の見方」を授ける書。'],
+            ['title' => 'コンテナ物語', 'author' => 'マルク・レビンソン', 'isbn' => '9784822251468', 'date' => '2007-01-18', 'genre' => 'ビジネス, 歴史', 'description' => '「コンテナ」という世界を変えた世紀の発明が、物流や世界経済をどのように激変させたかを追う歴史ノンフィクション。'],
         ];
 
-        // 4. foreach で $index を取得（0から始まる連番）
         foreach ($books as $index => $data) {
-            // 画像URL用に、1から始まる数字（1, 2, 3...）を計算
             $num = $index + 1;
 
             $book = Book::firstOrCreate(
@@ -46,13 +41,11 @@ class BookSeeder extends Seeder
                     'title' => $data['title'],
                     'author' => $data['author'],
                     'published_date' => $data['date'],
-                    // 'description' => $data['title'] . 'の概要説明文です。',
-                    'image_url' => 'https://placeholder.co/200x300/e2e8f0/475569?text='.$num,
+                    'description' => $data['description'],
+                    'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=' . $num,
                 ]
             );
 
-            // 5. カンマ区切りのジャンル（例: "ビジネス, 自己啓発"）を配列に分解
-            // explode() で ["ビジネス", "自己啓発"] に分け、さらに前後の余分なスペースを trim() で消します
             $genreNames = array_map('trim', explode(',', $data['genre']));
 
             $genreIds = [];
@@ -62,7 +55,6 @@ class BookSeeder extends Seeder
                 }
             }
 
-            // 抽出した複数のジャンルIDを一括で中間テーブルに保存
             $book->genres()->sync($genreIds);
         }
     }

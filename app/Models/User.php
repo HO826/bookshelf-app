@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
 
     // ユーザーがお気に入りにした本一覧（多対多）
-    public function favoriteBooks(): BelongsToMany
+    public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'favorites');
     }
@@ -66,11 +66,6 @@ class User extends Authenticatable
     // ユーザーがいいねしたレビュー一覧（多対多）
     public function likedReviews(): BelongsToMany
     {
-        return $this->belongsToMany(Review::class, 'likes');
-    }
-
-    public function passwordResetTokens(): HasMany
-    {
-        return $this->hasMany(PasswordResetToken::class, 'email', 'email');
+        return $this->belongsToMany(Review::class, 'review_likes');
     }
 }

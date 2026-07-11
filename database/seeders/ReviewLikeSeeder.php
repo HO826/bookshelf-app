@@ -14,6 +14,10 @@ class ReviewLikeSeeder extends Seeder
         $users = User::all();
         $reviews = Review::all();
 
+        if ($users->isEmpty() || $reviews->isEmpty()) {
+            return;
+        }
+
         // 2. 32件のレビューに対して、1件ずついいねを配分していくループ
         foreach ($reviews as $review) {
 
@@ -28,7 +32,7 @@ class ReviewLikeSeeder extends Seeder
 
             // 要件：「自分のレビューを除く」
             // 全ユーザーの中から「このレビューを書いた本人（$review->user_id）」を除外したメンバーのIDリストを作る
-            $eligibleUserIds = $users->where('id', '!==', $review->user_id)->pluck('id');
+            $eligibleUserIds = $users->where('id', '!=', $review->user_id)->pluck('id');
 
             // 残った安全なユーザーIDの中から、上で決めた人数分（1〜3人）をランダムにチョイスする
             // ※もし除外した結果、決められた人数より少なくなってしまった場合のエラーを防ぐため、実際のリストの数を超えないように min() で調整します
