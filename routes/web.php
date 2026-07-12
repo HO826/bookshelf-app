@@ -20,20 +20,6 @@ Route::get('/register', function () {
 })->name('register');
 
 // ==========================================
-// 公開ページ (ログインなしでも閲覧可能)
-// ==========================================
-
-// PG01: 書籍一覧（トップ）
-Route::get('/', [BookController::class, 'index'])->name('books.index');
-Route::get('/books', [BookController::class, 'index']);
-
-// PG02: 書籍詳細
-Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
-
-// PG11: ランキング
-Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
-
-// ==========================================
 // 認証必須ページ (ログインが必要)
 // ==========================================
 Route::middleware(['auth'])->group(function () {
@@ -87,3 +73,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/books/{book}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
+
+// ==========================================
+// 公開ページ (ログインなしでも閲覧可能)
+// ==========================================
+
+// PG01: 書籍一覧（トップ）
+Route::get('/', [BookController::class, 'index'])->name('books.index');
+Route::get('/books', [BookController::class, 'index']);
+
+// PG02: 書籍詳細
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+
+// PG11: ランキング
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
