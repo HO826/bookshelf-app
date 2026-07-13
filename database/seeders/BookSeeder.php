@@ -42,7 +42,7 @@ class BookSeeder extends Seeder
                     'author' => $data['author'],
                     'published_date' => $data['published_date'],
                     'description' => $data['description'],
-                    'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=' . $num,
+                    'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text='.$num,
                 ]
             );
 

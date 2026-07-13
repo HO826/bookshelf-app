@@ -67,10 +67,7 @@ Route::middleware(['auth'])->group(function () {
     // PG10: お気に入り一覧
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
-    // お気に入り追加・削除処理
-    Route::post('/books/{book}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::delete('/books/{book}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-
+    // お気に入り追加・削除の切り替え（toggleに統一）
     Route::post('/books/{book}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
