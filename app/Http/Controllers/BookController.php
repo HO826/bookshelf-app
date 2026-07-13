@@ -47,8 +47,6 @@ class BookController extends Controller
         // 1. 認証＋作成者本人かチェック（Policyのupdateメソッドを呼び出す）
         $this->authorize('update', $book);
 
-        // dd($book->published_date);
-
         // 2. 編集フォームのジャンル選択肢用に全ジャンルを取得
         $genres = Genre::all();
 

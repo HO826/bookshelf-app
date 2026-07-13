@@ -23,17 +23,6 @@ class Book extends Model
         'description',
     ];
 
-    protected $casts = [
-        'published_date' => 'date',
-    ];
-
-    protected function publishedDate(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => $value ? \Carbon\Carbon::parse($value)->format('Y-m-d') : null,
-        );
-    }
-
     // 本を登録したユーザー（1対多の逆）
     public function user(): BelongsTo
     {
