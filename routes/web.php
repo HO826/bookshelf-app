@@ -77,7 +77,6 @@ Route::middleware(['auth'])->group(function () {
 
 // PG01: 書籍一覧（トップ）
 Route::get('/', [BookController::class, 'index'])->name('books.index');
-Route::get('/books', [BookController::class, 'index']);
 
 // PG02: 書籍詳細
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
