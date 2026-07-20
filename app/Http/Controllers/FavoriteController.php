@@ -23,6 +23,6 @@ class FavoriteController extends Controller
         // ログイン中のユーザーのお気に入り書籍（favoriteBooks）に対してトグル処理を実行
         auth()->user()->favoriteBooks()->toggle($book->id);
 
-        return back();
+        return back()->with('success', 'お気に入りを更新しました。');
     }
 }
