@@ -2,10 +2,7 @@
 
 namespace App\Http\Resources\Api\V1;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Api\V1\GenreResource;
-use App\Http\Resources\Api\V1\ReviewResource;
 
 class BookResource extends JsonResource
 {
