@@ -22,7 +22,7 @@ class StoreBookRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url'],
             'genres' => ['required', 'array', 'min:1'],
-            'genres.*' => ['exists:genres,id'],
+            'genres.*' => ['integer', 'exists:genres,id'],
         ];
     }
 
@@ -48,13 +48,15 @@ class StoreBookRequest extends FormRequest
             'published_date.required' => '出版日は必須です',
             'published_date.date' => '出版日は正しい日付形式で入力してください',
 
-            'description.string' => '概要は文字列で入力してください',
+            'description.string' => '説明は文字列で入力してください',
 
             'image_url.url' => '画像URLは正しいURL形式で入力してください',
 
             'genres.required' => 'ジャンル選択は必須です',
             'genres.array' => 'ジャンルの指定形式が不正です',
             'genres.min' => 'ジャンルは最低1つ選択してください',
+
+            'genres.*.integer' => 'ジャンルの指定形式が不正です',
             'genres.*.exists' => '選択されたジャンルが存在しません',
         ];
     }

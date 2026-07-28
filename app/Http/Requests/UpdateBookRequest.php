@@ -15,14 +15,14 @@ class UpdateBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
-            'author' => ['required', 'string'],
+            'title' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
             'isbn' => ['required', 'digits:13', Rule::unique('books', 'isbn')->ignore($this->book)],
             'published_date' => ['required', 'date'],
             'description' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url'],
             'genres' => ['required', 'array', 'min:1'],
-            'genres.*' => ['exists:genres,id'],
+            'genres.*' => ['integer', 'exists:genres,id'],
         ];
     }
 
@@ -31,18 +31,28 @@ class UpdateBookRequest extends FormRequest
         return [
             'title.required' => 'タイトルを入力してください',
             'title.string' => 'タイトルは文字列で入力してください',
+            'title.max' => 'タイトルは255文字以内で入力してください',
+
             'author.required' => '著者を入力してください',
             'author.string' => '著者は文字列で入力してください',
-            'isbn.required' => '国際標準図書番号を入力してください',
+            'author.max' => '著者は255文字以内で入力してください',
+
+            'isbn.required' => 'isbnを入力してください',
             'isbn.digits' => '13桁で入力してください',
-            'isbn.unique' => '国際標準図書番号は既に登録されています',
+            'isbn.unique' => 'isbnは既に登録されています',
+
             'published_date.required' => '出版日を入力してください',
             'published_date.date' => '日付形式で入力してください',
+
             'description.string' => '説明は文字列で入力してください',
+
             'image_url.url' => '画像URLは有効なURLを入力してください',
-            'genres.required' => 'ジャンルを入力してください',
+
+            'genres.required' => 'ジャンル選択は必須です',
             'genres.array' => 'ジャンルの選択が正しくありません',
             'genres.min' => 'ジャンルは1つ以上選択してください',
+
+            'genres.*.integer' => 'ジャンルの指定形式が不正です',
             'genres.*.exists' => '選択したジャンルは存在しません',
         ];
     }
