@@ -32,7 +32,7 @@ class FavoriteSeeder extends Seeder
 
             // 4. 要件：「syncWithoutDetaching を使用」
             // ユーザーと本を紐付ける中間テーブル（favorites）にデータを保存します
-            $user->favorites()->syncWithoutDetaching($bookIds);
+            $user->favoriteBooks()->syncWithoutDetaching($bookIds);
         }
     }
 }
