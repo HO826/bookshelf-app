@@ -19,6 +19,7 @@ class GenreFactory extends Factory
     {
         return [
             //
+            'name' => fake()->word(),
         ];
     }
 }

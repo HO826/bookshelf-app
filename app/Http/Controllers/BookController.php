@@ -44,7 +44,7 @@ class BookController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        $book->genres()->attach($validated['genres']);
+        $book->genres()->sync($validated['genres']);
 
         return redirect()
             ->route('books.index', $book)

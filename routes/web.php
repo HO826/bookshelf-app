@@ -52,8 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
     // レビューいいね機能（非同期またはリダイレクト）
-    Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
-    Route::delete('/reviews/{review}/like', [ReviewController::class, 'unlike'])->name('reviews.unlike');
+    Route::post('/reviews/{review}/like', [ReviewController::class, 'toggleLike'])->name('reviews.like');
+    // Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
+    // Route::delete('/reviews/{review}/like', [ReviewController::class, 'unlike'])->name('reviews.unlike');
 
     // --- お気に入り関連 ---
     // PG10: お気に入り一覧

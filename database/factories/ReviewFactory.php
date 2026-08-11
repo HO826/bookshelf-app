@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +21,10 @@ class ReviewFactory extends Factory
     {
         return [
             //
+            'user_id' => User::factory(),
+            'book_id' => Book::factory(),
+            'rating'  => fake()->numberBetween(1, 5), // 1〜5の星評価
+            'comment' => fake()->realText(100),
         ];
     }
 }

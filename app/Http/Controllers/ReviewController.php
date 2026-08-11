@@ -54,4 +54,12 @@ class ReviewController extends Controller
 
         return redirect()->route('books.show', $book)->with('success', 'レビューを削除しました。');
     }
+
+    public function toggleLike(Review $review)
+    {
+        // ログイン中のユーザーが対象レビューにいいね/解除を行う
+        Auth::user()->likedReviews()->toggle($review->id);
+
+        return back();
+    }
 }

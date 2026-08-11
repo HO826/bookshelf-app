@@ -56,7 +56,7 @@ class StoreBookRequest extends FormRequest
             'genres.array' => 'ジャンルの指定形式が不正です',
             'genres.min' => 'ジャンルは最低1つ選択してください',
 
-            'genres.*.integer' => 'ジャンルの指定形式が不正です',
+            'genres.*.integer' => 'ジャンルは整数で指定してください',
             'genres.*.exists' => '選択されたジャンルが存在しません',
         ];
     }

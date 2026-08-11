@@ -66,6 +66,6 @@ class User extends Authenticatable
     // ユーザーがいいねしたレビュー一覧（多対多）
     public function likedReviews(): BelongsToMany
     {
-        return $this->belongsToMany(Review::class, 'review_likes');
+        return $this->belongsToMany(Review::class, 'review_likes')->withPivot('created_at');
     }
 }
