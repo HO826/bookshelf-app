@@ -53,7 +53,6 @@ class PageAccessTest extends TestCase
         }
     }
 
-
     public function test_ログイン済みユーザーが各画面を表示できること(): void
     {
         $user = User::factory()->create();

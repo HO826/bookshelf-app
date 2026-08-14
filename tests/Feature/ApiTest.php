@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +12,7 @@ class ApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_公開APIで書籍一覧を取得できる(): void
+    public function test_公開_ap_iで書籍一覧を取得できる(): void
     {
         Book::factory()->count(3)->create();
 
@@ -21,12 +21,12 @@ class ApiTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'title', 'author', 'isbn', 'published_date']
-                ]
+                    '*' => ['id', 'title', 'author', 'isbn', 'published_date'],
+                ],
             ]);
     }
 
-    public function test_公開APIで書籍詳細画面を取得できる(): void
+    public function test_公開_ap_iで書籍詳細画面を取得できる(): void
     {
         $book = Book::factory()->create();
 
@@ -49,7 +49,7 @@ class ApiTest extends TestCase
             ->assertStatus(404);
     }
 
-    public function test_公開APIで書籍を新規登録できる(): void
+    public function test_公開_ap_iで書籍を新規登録できる(): void
     {
         $user = User::factory()->create();
 
@@ -74,7 +74,7 @@ class ApiTest extends TestCase
         ]);
     }
 
-    public function test_公開APIで書籍を更新できる(): void
+    public function test_公開_ap_iで書籍を更新できる(): void
     {
         $book = Book::factory()->create();
 
@@ -96,7 +96,7 @@ class ApiTest extends TestCase
         ]);
     }
 
-    public function test_公開APIで書籍を削除できる(): void
+    public function test_公開_ap_iで書籍を削除できる(): void
     {
         $book = Book::factory()->create();
 

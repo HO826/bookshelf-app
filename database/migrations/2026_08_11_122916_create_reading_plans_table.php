@@ -24,6 +24,8 @@ return new class extends Migration
             // 計画状態 (status など: 例 'planned', 'in_progress', 'completed')
             $table->string('status')->default('planned');
 
+            $table->timestamp('completed_at')->nullable();
+
             // 関連する日時情報 (created_at, updated_at)
             $table->timestamps();
         });

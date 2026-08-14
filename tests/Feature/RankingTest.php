@@ -39,7 +39,7 @@ class RankingTest extends TestCase
         $response->assertDontSee('レビューなしの書籍');
     }
 
-    public function test_レビュー平均評価のTOP10書籍が降順で表示される(): void
+    public function test_レビュー平均評価の_to_p10書籍が降順で表示される(): void
     {
         $user = User::factory()->create();
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+
 // use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FortifyLoginRequest
@@ -18,7 +20,7 @@ class LoginRequest extends FortifyLoginRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -32,11 +34,11 @@ class LoginRequest extends FortifyLoginRequest
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
-            'email.string'   => 'メールアドレスは文字列で入力してください',
-            'email.email'    => '正しいメールアドレス形式で入力してください',
+            'email.string' => 'メールアドレスは文字列で入力してください',
+            'email.email' => '正しいメールアドレス形式で入力してください',
 
             'password.required' => 'パスワードを入力してください',
-            'password.string'   => 'パスワードは文字列で入力してください',
+            'password.string' => 'パスワードは文字列で入力してください',
         ];
     }
 }
