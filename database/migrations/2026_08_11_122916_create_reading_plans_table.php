@@ -12,16 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reading_plans', function (Blueprint $table) {
+            // 主キー
             $table->id();
 
             // 計画者 (user_id) と 対象書籍 (book_id)
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
 
-            // 期日 (target_date または target_at など)
+            // 期日
             $table->date('target_date');
 
-            // 計画状態 (status など: 例 'planned', 'in_progress', 'completed')
+            // 計画状態
             $table->string('status')->default('planned');
 
             $table->timestamp('completed_at')->nullable();

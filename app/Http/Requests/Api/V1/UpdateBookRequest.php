@@ -26,8 +26,8 @@ class UpdateBookRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'author' => ['required', 'string', 'max:255'],
-            'isbn' => ['required', 'digits:13', Rule::unique('books', 'isbn')->ignore($this->book)],
-            'published_date' => ['required', 'date'],
+            'isbn' => ['nullable', 'digits:13', Rule::unique('books', 'isbn')->ignore($this->route('book'))],
+            'published_date' => ['nullable', 'date'],
             'description' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url'],
             'genres' => ['required', 'array', 'min:1'],
@@ -46,11 +46,9 @@ class UpdateBookRequest extends FormRequest
             'author.string' => '著者名は文字列で入力してください',
             'author.max' => '著者名は255文字以内で入力してください',
 
-            'isbn.required' => 'ISBNは必須です',
             'isbn.digits' => 'ISBNは13桁の数字で入力してください',
             'isbn.unique' => 'このISBNは既に他の書籍で使用されています',
 
-            'published_date.required' => '出版日は必須です',
             'published_date.date' => '出版日は正しい日付形式で入力してください',
 
             'description.string' => '説明は文字列で入力してください',

@@ -22,6 +22,10 @@ class Book extends Model
         'description',
     ];
 
+    protected $casts = [
+        'published_date' => 'date',
+    ];
+
     // 本を登録したユーザー（1対多の逆）
     public function user(): BelongsTo
     {

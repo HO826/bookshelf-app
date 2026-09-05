@@ -12,10 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            // 主キー
+            $table->id();
+
+            // 通知種別(システム通知、いいね通知)
             $table->string('type');
+
+            // 受信者(ユーザーやチーム)
+            // notifiable_type + notifiable_id + index
             $table->morphs('notifiable');
+
+            // 通知内容
             $table->text('data');
+
+            // 既読状態 nullなら未読
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });

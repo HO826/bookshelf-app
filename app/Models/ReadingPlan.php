@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReadingPlanStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,9 +16,15 @@ class ReadingPlan extends Model
         'book_id',
         'target_date',
         'status',
+        'completed_at',
     ];
 
-    // 計画が所属するユーザーと書籍（多対1）
+    protected $casts = [
+        'target_date' => 'date',
+        'completed_at' => 'datetime',
+        'status' => ReadingPlanStatus::class,
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

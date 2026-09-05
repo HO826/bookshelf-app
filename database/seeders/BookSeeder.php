@@ -11,7 +11,12 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::first();
+        // $user = User::first();
+        $users = User::all();
+
+        if ($users->isEmpty()) {
+            return;
+        }
 
         $genres = Genre::all()->keyBy('name');
 
@@ -37,7 +42,8 @@ class BookSeeder extends Seeder
                     'isbn' => $data['isbn'],
                 ],
                 [
-                    'user_id' => $user->id,
+                    // 'user_id' => $user->id,
+                    'user_id' => $users->random()->id,
                     'title' => $data['title'],
                     'author' => $data['author'],
                     'published_date' => $data['published_date'],

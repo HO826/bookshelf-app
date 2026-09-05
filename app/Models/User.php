@@ -73,4 +73,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReadingPlan::class);
     }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->whereNull('read_at');
+    }
 }

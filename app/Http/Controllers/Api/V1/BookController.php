@@ -43,7 +43,8 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $book = Book::create([
-            'user_id' => $request->user_id,
+            // 'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'title' => $request->title,
             'author' => $request->author,
             'isbn' => $request->isbn,
@@ -79,6 +80,9 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
+        // 所有者でなければ403が返る
+        $this->authorize('update', $book);
+
         $book->update([
             'title' => $request->title,
             'author' => $request->author,
@@ -100,6 +104,9 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        // 所有者でなければ403が返る
+        $this->authorize('delete', $book);
+
         $book->delete();
 
         return response()->json(null, 204);
