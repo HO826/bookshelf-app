@@ -30,18 +30,20 @@ class BookController extends Controller
             });
         }
 
-        $sort = $request->input('sort', 'newest');
+        $sort = $request->input('sort', 'latest');
         switch ($sort) {
             case 'oldest':
                 $query->orderBy('created_at', 'asc');
                 break;
             case 'rating':
-                $query->orderBy('reviews_avg_rating', 'desc');
+                $query->withAvg('reviews', 'rating')
+                    ->orderByRaw('reviews_avg_rating IS NULL ASC')
+                    ->orderBy('reviews_avg_rating', 'desc');
                 break;
             case 'title':
                 $query->orderBy('title', 'asc');
                 break;
-            case 'newest':
+            case 'latest':
             default:
                 $query->orderBy('created_at', 'desc');
                 break;

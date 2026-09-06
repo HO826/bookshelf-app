@@ -55,7 +55,7 @@ class ApiTest extends TestCase
 
         $genre = Genre::factory()->create();
 
-        $response = $this->postJson('/api/v1/books', [
+        $response = $this->actingAs($user, 'sanctum')->postJson('/api/v1/books', [
             'user_id' => $user->id,
             'title' => 'Laravelの学習',
             'author' => '山田太郎',
@@ -76,11 +76,13 @@ class ApiTest extends TestCase
 
     public function test_公開_apiで書籍を更新できる(): void
     {
-        $book = Book::factory()->create();
+        $user = User::factory()->create();
+
+        $book = Book::factory()->create(['user_id' => $user->id]);
 
         $genre = Genre::factory()->create();
 
-        $response = $this->putJson("/api/v1/books/{$book->id}", [
+        $response = $this->actingAs($user, 'sanctum')->putJson("/api/v1/books/{$book->id}", [
             'title' => '更新後タイトル',
             'author' => $book->author,
             'isbn' => $book->isbn,
@@ -98,9 +100,11 @@ class ApiTest extends TestCase
 
     public function test_公開_apiで書籍を削除できる(): void
     {
-        $book = Book::factory()->create();
+        $user = User::factory()->create();
 
-        $response = $this->deleteJson("/api/v1/books/{$book->id}");
+        $book = Book::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user, 'sanctum')->deleteJson("/api/v1/books/{$book->id}");
 
         $response->assertStatus(204);
 
