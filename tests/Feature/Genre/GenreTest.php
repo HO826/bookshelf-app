@@ -52,7 +52,6 @@ class GenreTest extends TestCase
             ->assertOk();
     }
 
-
     public function test_認証ユーザーはジャンルを新規登録できる(): void
     {
         $user = User::factory()->create();
