@@ -117,4 +117,22 @@ class BookControllerTest extends TestCase
             'id' => $book->id,
         ]);
     }
+
+    public function test_他人の書籍は更新できない(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $genre = Genre::factory()->create();
+        $book = Book::factory()->for($otherUser)->create();
+
+        $response = $this->actingAs($user)->put(route('books.update', $book), [
+            'title' => '更新後タイトル',
+            'author' => '更新後著者',
+            'isbn' => $book->isbn,
+            'published_date' => '2026-02-01',
+            'genres' => [$genre->id],
+        ]);
+
+        $response->assertStatus(403);
+    }
 }

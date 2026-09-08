@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
-    // 通知一覧表示
-    public function index()
+    public function index(): View
     {
         $notifications = Auth::user()->notifications;
 
         return view('notifications.index', compact('notifications'));
     }
 
-    // 既読処理
-    public function read($id)
+    public function read(string $id): RedirectResponse
     {
         $notification = DatabaseNotification::where('notifiable_id', Auth::id())
             ->findOrFail($id);

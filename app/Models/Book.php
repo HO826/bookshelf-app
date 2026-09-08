@@ -26,25 +26,21 @@ class Book extends Model
         'published_date' => 'date',
     ];
 
-    // 本を登録したユーザー（1対多の逆）
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // 本に紐づくジャンル一覧（多対多）
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class, 'book_genre');
     }
 
-    // 本に対するレビュー一覧（1対多）
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    // この本をお気に入りにしているユーザー一覧（多対多）
     public function favoritedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favorites');

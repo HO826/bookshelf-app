@@ -12,7 +12,6 @@ class Genre extends Model
 
     protected $fillable = ['name'];
 
-    // ジャンルに紐づく本一覧（多対多）
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'book_genre');

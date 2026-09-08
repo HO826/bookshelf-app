@@ -19,7 +19,6 @@ class SearchFilterTest extends TestCase
         $targetBook = Book::factory()->create(['title' => 'Laravel実践入門']);
         $otherBook = Book::factory()->create(['title' => 'Python超入門']);
 
-        // 検索キーワード「Laravel」でアクセス
         $response = $this->actingAs($user)->get(route('books.index', ['keyword' => 'Laravel']));
 
         $response->assertStatus(200);
@@ -55,7 +54,6 @@ class SearchFilterTest extends TestCase
         $bookB = Book::factory()->create(['title' => 'UI本']);
         $bookB->genres()->attach($genreB->id);
 
-        // ジャンルAで絞り込み
         $response = $this->actingAs($user)->get(route('books.index', ['genre' => $genreA->id]));
 
         $response->assertStatus(200);

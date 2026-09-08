@@ -26,7 +26,6 @@ class LikeTest extends TestCase
         $user = User::factory()->create();
         $review = Review::factory()->create();
 
-        // いいね追加
         $response1 = $this->actingAs($user)
             ->post(route('reviews.like', $review));
 
@@ -36,7 +35,6 @@ class LikeTest extends TestCase
             'review_id' => $review->id,
         ]);
 
-        // いいね解除
         $response2 = $this->actingAs($user)
             ->post(route('reviews.like', $review));
 

@@ -12,10 +12,6 @@ class GenreTest extends TestCase
 {
     use RefreshDatabase;
 
-    /* ===================================================
-     * 1. 画面表示のテスト
-     * =================================================== */
-
     public function test_認証ユーザーはジャンル一覧を表示できる(): void
     {
         $user = User::factory()->create();
@@ -56,9 +52,6 @@ class GenreTest extends TestCase
             ->assertOk();
     }
 
-    /* ===================================================
-     * 2. STORE (登録) のテスト
-     * =================================================== */
 
     public function test_認証ユーザーはジャンルを新規登録できる(): void
     {
@@ -85,10 +78,6 @@ class GenreTest extends TestCase
         $this->assertDatabaseCount('genres', 0);
     }
 
-    /* ===================================================
-     * 3. UPDATE (更新) のテスト
-     * =================================================== */
-
     public function test_認証ユーザーはジャンルを更新できる(): void
     {
         $user = User::factory()->create();
@@ -104,10 +93,6 @@ class GenreTest extends TestCase
             'name' => '新ジャンル',
         ]);
     }
-
-    /* ===================================================
-     * 4. DELETE (削除) のテスト
-     * =================================================== */
 
     public function test_書籍が紐付いていないジャンルは削除できる(): void
     {
@@ -128,13 +113,11 @@ class GenreTest extends TestCase
         $genre = Genre::factory()->create();
         $book = Book::factory()->create();
 
-        // ジャンルに書籍を紐付ける
         $genre->books()->attach($book->id);
 
         $this->actingAs($user)->delete(route('genres.destroy', $genre))->assertRedirect(route('genres.index'))
             ->assertSessionHas('error', '書籍が登録されているジャンルは削除できません');
 
-        // DBにデータが残っていること
         $this->assertDatabaseHas('genres', [
             'id' => $genre->id,
         ]);

@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*') && $e instanceof ModelNotFoundException) {
             return response()->json([
-                'error' => 'タスクが見つかりませんでした。',
+                'message' => 'データが見つかりませんでした。',
             ], 404);
         }
 

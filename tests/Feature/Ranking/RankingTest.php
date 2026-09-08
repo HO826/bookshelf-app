@@ -21,7 +21,6 @@ class RankingTest extends TestCase
     {
         $user = User::factory()->create();
 
-        // レビューありの書籍
         $reviewedBook = Book::factory()->create(['title' => 'レビューありの書籍']);
         Review::factory()->create([
             'book_id' => $reviewedBook->id,
@@ -29,7 +28,6 @@ class RankingTest extends TestCase
             'rating' => 5,
         ]);
 
-        // レビューなしの書籍
         $noReviewBook = Book::factory()->create(['title' => 'レビューなしの書籍']);
 
         $response = $this->get(route('ranking.index'));
@@ -43,7 +41,6 @@ class RankingTest extends TestCase
     {
         $user = User::factory()->create();
 
-        // 11冊の書籍を作成し、評価を変えてレビューを投稿（評価 1 〜 12 のイメージ）
         for ($i = 1; $i <= 11; $i++) {
             $book = Book::factory()->create([
                 'title' => "書籍{$i}",
@@ -59,12 +56,10 @@ class RankingTest extends TestCase
         $this->get(route('ranking.index'))->assertStatus(200)
             ->assertViewHas('rankedBooks', function ($rankedBooks) {
 
-                // ランキングが10冊だけになっているか
                 if ($rankedBooks->count() !== 10) {
                     return false;
                 }
 
-                // 評価が高い順に並んでいるか
                 for ($i = 0; $i < $rankedBooks->count() - 1; $i++) {
                     if (
                         $rankedBooks[$i]->reviews_avg_rating

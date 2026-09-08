@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\ReadingPlan;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class ReadingPlanReminderNotification extends Notification
@@ -22,7 +23,14 @@ class ReadingPlanReminderNotification extends Notification
 
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['mail', 'database'];
+    }
+
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject($this->title())
+            ->line($this->body());
     }
 
     public function databaseType(object $notifiable): string
@@ -30,7 +38,7 @@ class ReadingPlanReminderNotification extends Notification
         return 'reading_plan_reminder';
     }
 
-    public function toArray(object $notifiable): array|string
+    public function toArray(object $notifiable): array
     {
         $rawTargetDate = $this->readingPlan->target_date;
         $targetDateStr = ($rawTargetDate instanceof \DateTimeInterface)
@@ -38,7 +46,7 @@ class ReadingPlanReminderNotification extends Notification
             : (string) $rawTargetDate;
         $bookTitle = optional($this->readingPlan->book)->title ?? '書籍';
 
-        $data = [
+        return [
             'reading_plan_id' => (int) $this->readingPlan->id,
             'book_title' => (string) $bookTitle,
             'target_date' => (string) $targetDateStr,
@@ -46,8 +54,6 @@ class ReadingPlanReminderNotification extends Notification
             'title' => (string) $this->title(),
             'body' => (string) $this->body(),
         ];
-
-        return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
     private function title(): string

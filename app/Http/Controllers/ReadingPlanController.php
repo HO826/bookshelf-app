@@ -14,7 +14,6 @@ use Illuminate\View\View;
 
 class ReadingPlanController extends Controller
 {
-    // 一覧表示
     public function index(Request $request): View
     {
         $currentStatus = $request->query('status');
@@ -30,7 +29,6 @@ class ReadingPlanController extends Controller
         return view('reading-plans.index', compact('readingPlans', 'currentStatus'));
     }
 
-    // 新規作成画面
     public function create(): View
     {
         $books = Book::all();
@@ -38,7 +36,6 @@ class ReadingPlanController extends Controller
         return view('reading-plans.create', compact('books'));
     }
 
-    // 保存処理
     public function store(StoreReadingPlanRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -52,7 +49,6 @@ class ReadingPlanController extends Controller
         return redirect()->route('reading-plans.index')->with('success', '読書計画を作成しました。');
     }
 
-    // 編集画面
     public function edit(ReadingPlan $readingPlan): View
     {
         $this->authorize('update', $readingPlan);
@@ -60,7 +56,6 @@ class ReadingPlanController extends Controller
         return view('reading-plans.edit', compact('readingPlan'));
     }
 
-    // 更新処理
     public function update(UpdateReadingPlanRequest $request, ReadingPlan $readingPlan): RedirectResponse
     {
         $this->authorize('update', $readingPlan);
@@ -74,7 +69,6 @@ class ReadingPlanController extends Controller
         return redirect()->route('reading-plans.index')->with('success', '読書計画を更新しました。');
     }
 
-    // 削除処理
     public function destroy(ReadingPlan $readingPlan): RedirectResponse
     {
         $this->authorize('delete', $readingPlan);
@@ -84,7 +78,6 @@ class ReadingPlanController extends Controller
         return redirect()->route('reading-plans.index')->with('success', '読書計画を削除しました。');
     }
 
-    // 読了処理（ステータス変更）
     public function complete(ReadingPlan $readingPlan): RedirectResponse
     {
         $this->authorize('complete', $readingPlan);

@@ -8,19 +8,22 @@ use App\Http\Requests\Api\V1\StoreBookRequest;
 use App\Http\Requests\Api\V1\UpdateBookRequest;
 use App\Http\Resources\Api\V1\BookResource;
 use App\Models\Book;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(IndexBookRequest $request)
+    public function index(IndexBookRequest $request): AnonymousResourceCollection
     {
         $query = Book::with('genres')->withAvg('reviews', 'rating')->withCount('reviews');
 
         if ($request->filled('keyword')) {
             $keyword = $request->input('keyword');
-            $query->where('title', 'like', "%{$keyword}%");
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('author', 'like', "%{$keyword}%");
+            });
         }
 
         if ($request->filled('genre_id')) {
@@ -37,23 +40,23 @@ class BookController extends Controller
         return BookResource::collection($books);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBookRequest $request)
+    public function store(StoreBookRequest $request): JsonResponse
     {
-        $book = Book::create([
-            // 'user_id' => $request->user_id,
-            'user_id' => $request->user()->id,
-            'title' => $request->title,
-            'author' => $request->author,
-            'isbn' => $request->isbn,
-            'published_date' => $request->published_date,
-            'description' => $request->description,
-            'image_url' => $request->image_url,
-        ]);
+        $book = DB::transaction(function () use ($request) {
+            $book = Book::create([
+                'user_id' => $request->user()->id,
+                'title' => $request->title,
+                'author' => $request->author,
+                'isbn' => $request->isbn,
+                'published_date' => $request->published_date,
+                'description' => $request->description,
+                'image_url' => $request->image_url,
+            ]);
 
-        $book->genres()->attach($request->genres);
+            $book->genres()->attach($request->genres);
+
+            return $book;
+        });
 
         $book->load('genres');
 
@@ -62,10 +65,7 @@ class BookController extends Controller
             ->setStatusCode(201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Book $book)
+    public function show(Book $book): BookResource
     {
         $book->load([
             'genres',
@@ -75,36 +75,30 @@ class BookController extends Controller
         return new BookResource($book);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book): BookResource
     {
-        // 所有者でなければ403が返る
         $this->authorize('update', $book);
 
-        $book->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'isbn' => $request->isbn,
-            'published_date' => $request->published_date,
-            'description' => $request->description,
-            'image_url' => $request->image_url,
-        ]);
+        DB::transaction(function () use ($request, $book) {
+            $book->update([
+                'title' => $request->title,
+                'author' => $request->author,
+                'isbn' => $request->isbn,
+                'published_date' => $request->published_date,
+                'description' => $request->description,
+                'image_url' => $request->image_url,
+            ]);
 
-        $book->genres()->sync($request->genres);
+            $book->genres()->sync($request->genres);
+        });
 
         $book->load('genres');
 
         return new BookResource($book);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Book $book)
+    public function destroy(Book $book): JsonResponse
     {
-        // 所有者でなければ403が返る
         $this->authorize('delete', $book);
 
         $book->delete();

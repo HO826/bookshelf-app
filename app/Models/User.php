@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -45,25 +46,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // ユーザーが登録した本一覧
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);
     }
 
-    // ユーザーが投稿したレビュー一覧
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    // ユーザーがお気に入りにした本一覧（多対多）
     public function favoriteBooks(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'favorites')->withPivot('created_at');
     }
 
-    // ユーザーがいいねしたレビュー一覧（多対多）
     public function likedReviews(): BelongsToMany
     {
         return $this->belongsToMany(Review::class, 'review_likes')->withPivot('created_at');
@@ -74,12 +71,12 @@ class User extends Authenticatable
         return $this->hasMany(ReadingPlan::class);
     }
 
-    public function notifications()
+    public function notifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
-    public function unreadNotifications()
+    public function unreadNotifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'notifiable')->whereNull('read_at');
     }

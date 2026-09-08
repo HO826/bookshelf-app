@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use App\Models\Review;
+use Illuminate\View\View;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $userId = auth()->id();
 

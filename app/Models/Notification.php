@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Notification extends Model
 {
@@ -19,12 +21,12 @@ class Notification extends Model
         'read_at',
     ];
 
-    public function notifiable()
+    public function notifiable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function scopeUnread($query)
+    public function scopeUnread(Builder $query): Builder
     {
         return $query->whereNull('read_at');
     }

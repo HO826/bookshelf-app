@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
-use App\Models\User;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -63,14 +63,14 @@ class BookSortTest extends TestCase
         $highRatedBook = Book::factory()->create(['title' => '高評価本']);
         $highRatedBook = Review::factory()->create([
             'user_id' => $user->id,
-            'rating'  => 5,
+            'rating' => 5,
             'comment' => '最高でした',
         ]);
 
         $midRatedBook = Book::factory()->create(['title' => '中評価本']);
         $midRatedBook = Review::factory()->create([
             'user_id' => $user->id,
-            'rating'  => 3,
+            'rating' => 3,
             'comment' => '普通でした',
         ]);
 

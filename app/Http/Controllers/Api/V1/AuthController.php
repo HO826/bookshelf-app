@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $validated = $request->validated();
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $validated['email'])->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($validated['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['ログイン情報が正しくありません。'],
             ]);
@@ -33,7 +32,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
