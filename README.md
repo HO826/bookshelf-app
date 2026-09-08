@@ -92,13 +92,15 @@ PHP 8.5 環境でテストを実行した際、PDO の SSL 接続オプション
 
 **修正前 (`config/database.php`)**:
 
-```php
+````php
 'options' => extension_loaded('pdo_mysql') ? array_filter([
     PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
 ]) : [],
 
 **修正後 (`config/database.php`)**:
+
+```php
 'options' => extension_loaded('pdo_mysql') ? array_filter([
     \Pdo\Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
 ]) : [],
-```
+````
